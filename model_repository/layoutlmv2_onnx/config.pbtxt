@@ -1,0 +1,89 @@
+name: "layoutlmv2_onnx"
+platform: "ensemble"
+max_batch_size: 8
+
+input [
+  {
+    name: "image"
+    data_type: TYPE_UINT8
+    dims: [ 3, -1, -1 ]
+  }
+]
+
+output [
+  {
+    name: "labels"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "bbox_out"
+    data_type: TYPE_INT64
+    dims: [ -1, 4 ]
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "layoutlmv2_preprocess"
+      model_version: -1
+      input_map {
+        key: "image"
+        value: "image"
+      }
+      output_map {
+        key: "input_ids"
+        value: "input_ids"
+      }
+      output_map {
+        key: "bbox"
+        value: "bbox"
+      }
+      output_map {
+        key: "processed_image"
+        value: "processed_image"
+      }
+    },
+    {
+      model_name: "layoutlmv2_onnx_model"
+      model_version: -1
+      input_map {
+        key: "input_ids"
+        value: "input_ids"
+      }
+      input_map {
+        key: "bbox"
+        value: "bbox"
+      }
+      input_map {
+        key: "image"
+        value: "processed_image"
+      }
+      output_map {
+        key: "logits"
+        value: "logits"
+      }
+    },
+    {
+      model_name: "layoutlmv2_postprocess"
+      model_version: -1
+      input_map {
+        key: "logits"
+        value: "logits"
+      }
+      input_map {
+        key: "bbox"
+        value: "bbox"
+      }
+      output_map {
+        key: "labels"
+        value: "labels"
+      }
+      output_map {
+        key: "bbox_out"
+        value: "bbox_out"
+      }
+    }
+  ]
+}

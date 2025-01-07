@@ -1,0 +1,12 @@
+*.onnx
+.venv
+.idea/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# Bytecode files
+*.pyc
+*.pyo
+*.pyd
