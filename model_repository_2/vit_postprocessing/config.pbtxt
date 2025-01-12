@@ -1,11 +1,11 @@
 name: "vit_postprocessing"
 backend: "python"
-max_batch_size: 4
+max_batch_size: 16
 input [
   {
     name: "INPUT_0"
     data_type: TYPE_FP32
-    dims: [ -1 ]
+    dims: [ 2 ]
   }
 ]
 output [
@@ -18,12 +18,5 @@ output [
     name: "predicted_class"
     data_type: TYPE_INT64
     dims: [ 1 ]
-  }
-]
-
-instance_group [
-  {
-    count: 1
-    kind: KIND_GPU
   }
 ]

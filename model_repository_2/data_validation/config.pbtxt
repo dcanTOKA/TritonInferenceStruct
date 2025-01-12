@@ -1,0 +1,26 @@
+name: "data_validation"
+backend: "python"
+max_batch_size: 16
+input [
+  {
+    name: "INPUT_BASE64"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+output [
+  {
+    name: "OUTPUT_BYTES"
+    data_type: TYPE_UINT8
+    dims: [ -1 ]
+  },
+  {
+    name: "OUTPUT_SIZES"
+    data_type: TYPE_INT32
+    dims: [ 2 ]
+  }
+]
+dynamic_batching {
+  preferred_batch_size: [8, 16]
+  max_queue_delay_microseconds: 10000
+}

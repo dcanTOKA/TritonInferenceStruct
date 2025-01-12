@@ -1,11 +1,16 @@
 name: "vit_preprocessing"
 backend: "dali"
-max_batch_size: 4
+max_batch_size: 16
 input [
   {
     name: "INPUT_0"
     data_type: TYPE_UINT8
     dims: [ -1 ]
+  },
+  {
+    name: "INPUT_1"
+    data_type: TYPE_INT32
+    dims: [ 2 ]
   }
 ]
 output [
@@ -15,7 +20,6 @@ output [
     dims: [ 3, 224, 224 ]
   }
 ]
-
 instance_group [
   {
     count: 1

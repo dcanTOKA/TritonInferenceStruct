@@ -40,6 +40,6 @@ def softmax(logits):
 
 
 if __name__ == "__main__":
-    image_path = "cat_3.jpeg"
+    image_path = "images/dog_2.png"
     result = predict(image_path)
     print(f"Sonuç: {result}")

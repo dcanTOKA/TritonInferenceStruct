@@ -1,6 +1,9 @@
 *.onnx
 .venv
 .idea/
+base64
+images
+
 
 # Python cache
 __pycache__/

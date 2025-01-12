@@ -1,10 +1,10 @@
 name: "vit"
 platform: "ensemble"
-max_batch_size: 4
+max_batch_size: 16
 input [
   {
-    name: "INPUT_0"
-    data_type: TYPE_UINT8
+    name: "INPUT_BASE64"
+    data_type: TYPE_STRING
     dims: [ -1 ]
   }
 ]
@@ -23,11 +23,31 @@ output [
 ensemble_scheduling {
   step [
     {
+      model_name: "data_validation"
+      model_version: -1
+      input_map {
+        key: "INPUT_BASE64"
+        value: "INPUT_BASE64"
+      }
+      output_map {
+        key: "OUTPUT_BYTES"
+        value: "INPUT_0"
+      }
+      output_map {
+        key: "OUTPUT_SIZES"
+        value: "INPUT_1"
+      }
+    },
+    {
       model_name: "vit_preprocessing"
       model_version: -1
       input_map {
         key: "INPUT_0"
         value: "INPUT_0"
+      }
+      input_map {
+        key: "INPUT_1"
+        value: "INPUT_1"
       }
       output_map {
         key: "OUTPUT_0"
